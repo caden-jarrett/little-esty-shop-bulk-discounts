@@ -7,7 +7,7 @@ before :each do
 
   @bulk_discount_1 = BulkDiscount.create!(percentage:15, threshold:10, merchant_id:@merchant_1.id)
   @bulk_discount_2 = BulkDiscount.create!(percentage:25, threshold:12, merchant_id:@merchant_1.id)
-  @bulk_discount_3 = BulkDiscount.create!(percentage:10, threshold:15, merchant_id:@merchant_1.id)
+  @bulk_discount_3 = BulkDiscount.create!(percentage:35, threshold:18, merchant_id:@merchant_1.id)
   @bulk_discount_4 = BulkDiscount.create!(percentage:30, threshold:20, merchant_id:@merchant_2.id)
 end
 
