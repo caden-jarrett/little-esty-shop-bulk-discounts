@@ -18,7 +18,7 @@ end
     end
 
     expect(current_path).to eq(merchant_bulk_discounts_path(@merchant_1))
-    save_and_open_page
+
     within "#discount-#{@bulk_discount_1.id}" do
       expect(page).to have_content(@bulk_discount_1.percentage)
       expect(page).to have_content(@bulk_discount_1.threshold)
@@ -39,5 +39,25 @@ end
 
     expect(page).to_not have_content(@bulk_discount_4.percentage)
     expect(page).to_not have_content(@bulk_discount_4.threshold)
+  end
+
+  scenario 'displays link to a bulk discount creation form' do
+    visit merchant_bulk_discounts_path(@merchant_1)
+
+    click_on 'Create Bulk Discount'
+
+    expect(current_path).to eq(new_merchant_bulk_discount_path(@merchant_1))
+
+    within '#new-threshold' do
+      select(10)
+    end
+
+    within '#new-percentage' do
+      select(15)
+    end
+
+    click_on 'Create Bulk Discount'
+
+    expect(current_path).to eq(merchant_bulk_discounts_path(@merchant_1))
   end
 end
