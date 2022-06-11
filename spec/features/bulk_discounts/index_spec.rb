@@ -56,7 +56,7 @@ end
       select(15)
     end
 
-    click_on 'Create Bulk Discount'
+    click_on 'Create'
 
     expect(current_path).to eq(merchant_bulk_discounts_path(@merchant_1))
   end
