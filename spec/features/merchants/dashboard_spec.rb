@@ -70,7 +70,8 @@ RSpec.describe 'Merchant Dashboard Index', type: :feature do
 
   it 'should have links to merchant items index and merchant invoices index, and  discounts', :vcr do
     visit merchant_dashboard_index_path(@merchant.id)
-    expect(page).to have_link('View All Dsicounts')
+    
+    expect(page).to have_link('View All Discounts')
     expect(page).to have_link('My Items')
     expect(page).to have_link('My Invoices')
   end

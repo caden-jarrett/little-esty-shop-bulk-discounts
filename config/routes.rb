@@ -2,6 +2,7 @@ Rails.application.routes.draw do
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
 
   resources :merchants do
+    resources :bulk_discounts, only: %i[index show]
     resources :items, only: %i[index show edit update new create]
     resources :dashboard, only: [:index]
     resources :invoices, only: %i[index show] do

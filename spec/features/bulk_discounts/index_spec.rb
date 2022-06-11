@@ -18,27 +18,26 @@ end
     end
 
     expect(current_path).to eq(merchant_bulk_discounts_path(@merchant_1))
-
+    save_and_open_page
     within "#discount-#{@bulk_discount_1.id}" do
       expect(page).to have_content(@bulk_discount_1.percentage)
       expect(page).to have_content(@bulk_discount_1.threshold)
       expect(page).to have_link('Bulk Discount Show Page')
     end
 
-    within "#discount-#{@bulk_discount_1.id}" do
-      expect(page).to have_content(@bulk_discount_1.percentage)
-      expect(page).to have_content(@bulk_discount_1.threshold)
+    within "#discount-#{@bulk_discount_2.id}" do
+      expect(page).to have_content(@bulk_discount_2.percentage)
+      expect(page).to have_content(@bulk_discount_2.threshold)
       expect(page).to have_link('Bulk Discount Show Page')
     end
 
-    within "#discount-#{@bulk_discount_1.id}" do
-      expect(page).to have_content(@bulk_discount_1.percentage)
-      expect(page).to have_content(@bulk_discount_1.threshold)
+    within "#discount-#{@bulk_discount_3.id}" do
+      expect(page).to have_content(@bulk_discount_3.percentage)
+      expect(page).to have_content(@bulk_discount_3.threshold)
       expect(page).to have_link('Bulk Discount Show Page')
     end
 
-    expect(page).to_not have_content(@bulk_discount_1.percentage)
-    expect(page).to_not have_content(@bulk_discount_1.threshold)
-    expect(page).to_not have_link('Bulk Discount Show Page')
+    expect(page).to_not have_content(@bulk_discount_4.percentage)
+    expect(page).to_not have_content(@bulk_discount_4.threshold)
   end
 end
