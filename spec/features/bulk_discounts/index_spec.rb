@@ -59,5 +59,8 @@ end
     click_on 'Create'
 
     expect(current_path).to eq(merchant_bulk_discounts_path(@merchant_1))
+
+    expect(page).to have_content('Percent Discount: 15')
+    expect(page).to have_content('Item Quantity Threshold: 10')
   end
 end
