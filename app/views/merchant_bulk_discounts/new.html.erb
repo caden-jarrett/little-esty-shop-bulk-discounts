@@ -1,0 +1,18 @@
+<%= render partial: 'shared/header' %>
+
+<h1> Create New Discount </h1><br>
+<br>
+<%= form_with model: @bulk_discount, url: merchant_bulk_discounts_path(@merchant) do |form| %>
+
+  <div id='new-threshold'>
+  Threshold for Bulk Discount:<br>
+  <%= form.select :threshold, options_for_select(1..25) %><br>
+  </div>
+
+  <div id='new-percentage'>
+  Discount Percentage for Meeting Threshold:<br>
+  <%= form.select :threshold, options_for_select([1,5,10,15,20,25,30,35,40,45,50,55,60,65,70,75,80,85,90,95]) %><br>
+  </div>
+
+  <%= form.submit 'Create'%>
+<% end %>
