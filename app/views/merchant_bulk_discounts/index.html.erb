@@ -8,6 +8,7 @@
       Percent Discount: <%= discount.percentage %>%<br>
       Item Quantity Threshold: <%= discount.threshold %><br>
       <%= link_to "Bulk Discount Show Page", merchant_bulk_discounts_path(@merchant, discount) %><br>
+      <%= link_to "Delete Bulk Discount", merchant_bulk_discount_path(@merchant, discount), method: :delete %><br>
       <br>
     </div>
   <% end %>

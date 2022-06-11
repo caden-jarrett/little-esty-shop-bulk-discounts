@@ -7,7 +7,7 @@ before :each do
 
   @bulk_discount_1 = BulkDiscount.create!(percentage:15, threshold:10, merchant_id:@merchant_1.id)
   @bulk_discount_2 = BulkDiscount.create!(percentage:25, threshold:12, merchant_id:@merchant_1.id)
-  @bulk_discount_3 = BulkDiscount.create!(percentage:10, threshold:15, merchant_id:@merchant_1.id)
+  @bulk_discount_3 = BulkDiscount.create!(percentage:35, threshold:18, merchant_id:@merchant_1.id)
   @bulk_discount_4 = BulkDiscount.create!(percentage:30, threshold:20, merchant_id:@merchant_2.id)
 end
 
@@ -59,5 +59,21 @@ end
     click_on 'Create'
 
     expect(current_path).to eq(merchant_bulk_discounts_path(@merchant_1))
+
+    expect(page).to have_content('Percent Discount: 15')
+    expect(page).to have_content('Item Quantity Threshold: 10')
+  end
+
+  scenario 'it displays a link to delete each discount' do
+    visit merchant_bulk_discounts_path(@merchant_1)
+
+    within "#discount-#{@bulk_discount_3.id}" do
+      click_on 'Delete Bulk Discount'
+    end
+
+    expect(current_path).to eq(merchant_bulk_discounts_path(@merchant_1))
+
+    expect(page).to_not have_content(@bulk_discount_3.percentage)
+    expect(page).to_not have_content(@bulk_discount_3.threshold)
   end
 end
