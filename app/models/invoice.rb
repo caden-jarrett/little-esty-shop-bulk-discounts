@@ -5,14 +5,16 @@ class Invoice < ApplicationRecord
   has_many :invoice_items
   has_many :items, through: :invoice_items
   has_many :merchants, through: :items
-  has_many :transactions
-  has_many :invoice_items
-  has_many :items, through: :invoice_items
-  validates_presence_of :status
   has_many :bulk_discounts, through: :merchants
+  has_many :transactions
+  validates_presence_of :status
 
   def total_revenue
     invoice_items.sum('quantity * unit_price').to_f / 100
+  end
+
+  def discounted_revenue
+    invoice_items.discounted_revenue
   end
 
   def self.best_day
