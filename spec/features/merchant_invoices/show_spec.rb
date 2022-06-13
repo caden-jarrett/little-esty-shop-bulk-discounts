@@ -3,6 +3,8 @@ require 'rails_helper'
 RSpec.describe 'Merchant Invoice Show page' do
   before :each do
     @merchant = Merchant.create!(name: 'Brylan')
+    @bulk_discount_1 = @merchant.bulk_discounts.create!(threshold:5, percentage: 15)
+    @bulk_discount_2 = @merchant.bulk_discounts.create!(threshold:3, percentage: 20)
     @item_1 = @merchant.items.create!(name: 'Pencil', unit_price: 500, description: 'Writes things.')
     @item_2 = @merchant.items.create!(name: 'Pen', unit_price: 400, description: 'Writes things, but dark.')
     @item_3 = @merchant.items.create!(name: 'Marker', unit_price: 400,
@@ -92,6 +94,14 @@ RSpec.describe 'Merchant Invoice Show page' do
     expect(current_path).to eq(merchant_invoice_path(@merchant, @invoice_1))
     within "#invoice-items-#{@invoice_item_3.id}" do
       expect(page).to have_content('packaged')
+    end
+  end
+
+  it 'displays the total revenue of the items on the invoice', :vcr do
+    visit merchant_invoice_path(@merchant, @invoice_1)
+
+    within "#invoice-#{@invoice_1.id}" do
+      expect(page).to have_content('Discounted Revenue: $13.50')
     end
   end
 end
