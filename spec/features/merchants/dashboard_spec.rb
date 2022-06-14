@@ -70,7 +70,7 @@ RSpec.describe 'Merchant Dashboard Index', type: :feature do
 
   it 'should have links to merchant items index and merchant invoices index, and  discounts', :vcr do
     visit merchant_dashboard_index_path(@merchant.id)
-    
+
     expect(page).to have_link('View All Discounts')
     expect(page).to have_link('My Items')
     expect(page).to have_link('My Invoices')
@@ -127,7 +127,7 @@ RSpec.describe 'Merchant Dashboard Index', type: :feature do
 
     within '#id-1' do
       expect(page).to have_content(@item_1.name)
-      expect(page).to have_link(@invoice_4.id)
+      expect(page).to have_content(@invoice_4.id)
       expect(page).to have_content('Monday, Mar 26 2012')
       expect(page).to_not have_content('Tuesday, Mar 27 2012')
       expect(@item_1.name).to_not appear_before(@item_2.name)

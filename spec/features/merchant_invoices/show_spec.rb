@@ -3,6 +3,8 @@ require 'rails_helper'
 RSpec.describe 'Merchant Invoice Show page' do
   before :each do
     @merchant = Merchant.create!(name: 'Brylan')
+    @merchant_2 = Merchant.create!(name: 'Teddy')
+
     @item_1 = @merchant.items.create!(name: 'Pencil', unit_price: 500, description: 'Writes things.')
     @item_2 = @merchant.items.create!(name: 'Pen', unit_price: 400, description: 'Writes things, but dark.')
     @item_3 = @merchant.items.create!(name: 'Marker', unit_price: 400,
@@ -12,11 +14,11 @@ RSpec.describe 'Merchant Invoice Show page' do
     @invoice_1 = @customer_1.invoices.create!(status: 'completed',
                                               created_at: 'Wed, 01 Jan 2022 21:20:02 UTC +00:00')
     @invoice_7 = @customer_1.invoices.create!(status: 'completed')
-    @invoice_item_1 = @item_1.invoice_items.create!(invoice_id: @invoice_1.id, quantity: 3, unit_price: 400, status: 'packaged',
+    @invoice_item_1 = @item_1.invoice_items.create!(invoice_id: @invoice_1.id, quantity: 5, unit_price: 400, status: 'packaged',
                                                     created_at: Time.parse('2012-03-27 14:54:09 UTC'))
-    @invoice_item_2 = @item_2.invoice_items.create!(invoice_id: @invoice_7.id, quantity: 5, unit_price: 375, status: 'pending',
+    @invoice_item_2 = @item_2.invoice_items.create!(invoice_id: @invoice_1.id, quantity: 5, unit_price: 375, status: 'pending',
                                                     created_at: Time.parse('2012-03-28 14:54:09 UTC'))
-    @invoice_item_3 = @item_2.invoice_items.create!(invoice_id: @invoice_1.id, quantity: 1, unit_price: 375, status: 'shipped',
+    @invoice_item_3 = @item_3.invoice_items.create!(invoice_id: @invoice_1.id, quantity: 5, unit_price: 375, status: 'shipped',
                                                     created_at: Time.parse('2012-03-28 14:54:09 UTC'))
   end
 
@@ -39,7 +41,7 @@ RSpec.describe 'Merchant Invoice Show page' do
 
     within "#invoice-items-#{@invoice_item_1.id}" do
       expect(page).to have_content('Pencil')
-      expect(page).to have_content('3')
+      expect(page).to have_content('5')
       expect(page).to have_content('500')
       expect(page).to have_content('packaged')
     end
@@ -49,7 +51,7 @@ RSpec.describe 'Merchant Invoice Show page' do
     visit merchant_invoice_path(@merchant, @invoice_1)
 
     within "#invoice-#{@invoice_1.id}" do
-      expect(page).to have_content('Total Revenue: $15.75')
+      expect(page).to have_content('Total Revenue: $57.5')
     end
   end
 
@@ -93,5 +95,32 @@ RSpec.describe 'Merchant Invoice Show page' do
     within "#invoice-items-#{@invoice_item_3.id}" do
       expect(page).to have_content('packaged')
     end
+  end
+
+  it 'displays the total revenue of the items on the invoice' do
+
+    @bulk_discount_1 = @merchant.bulk_discounts.create(threshold:3, percentage: 15)
+    @bulk_discount_2 = @merchant.bulk_discounts.create(threshold:2, percentage: 20)
+
+    visit merchant_invoice_path(@merchant, @invoice_1)
+
+    within "#invoice-#{@invoice_1.id}" do
+      expect(page).to have_content('Discounted Revenue: $46.0')
+    end
+  end
+
+  it 'has a link to all applied discounts' do
+
+    @bulk_discount_1 = @merchant.bulk_discounts.create(threshold:1, percentage: 15)
+    @bulk_discount_2 = @merchant.bulk_discounts.create(threshold:1, percentage: 20, id:100000)
+
+    visit merchant_invoice_path(@merchant, @invoice_1)
+    save_and_open_page
+    within "#invoice-items-#{@invoice_item_2.id}" do
+      expect(page).to have_content('Applied Discount')
+      click_on('Applied Discount')
+    end
+
+    expect(current_path).to eq(merchant_bulk_discount_path(@merchant.id, @bulk_discount_2.id))
   end
 end
