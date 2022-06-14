@@ -6,6 +6,7 @@ Rails.application.routes.draw do
                                         only: %i[edit update index show new create destroy]
     resources :items, only: %i[index show edit update new create]
     resources :dashboard, only: [:index]
+    resources :bulk_discount, only: %i[:show]
     resources :invoices, only: %i[index show] do
       resources :invoice_items, only: %i[edit update]
     end
