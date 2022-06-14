@@ -30,7 +30,7 @@ RSpec.describe 'Merchant Invoice page' do
     within '#heading' do
       expect(page).to have_content('My Invoices')
     end
-
+    
     within "#invoice-#{@invoice_1.id}" do
       expect(page).to have_content("Invoice ##{@invoice_1.id}")
     end

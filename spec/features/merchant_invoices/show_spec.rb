@@ -112,7 +112,7 @@ RSpec.describe 'Merchant Invoice Show page' do
   it 'has a link to all applied discounts' do
 
     @bulk_discount_1 = @merchant.bulk_discounts.create(threshold:1, percentage: 15)
-    @bulk_discount_2 = @merchant.bulk_discounts.create(threshold:1, percentage: 20)
+    @bulk_discount_2 = @merchant.bulk_discounts.create(threshold:1, percentage: 20, id:100000)
 
     visit merchant_invoice_path(@merchant, @invoice_1)
 
@@ -120,6 +120,7 @@ RSpec.describe 'Merchant Invoice Show page' do
       expect(page).to have_content('Applied Discount')
       click_on('Applied Discount')
     end
+
     expect(current_path).to eq(merchant_bulk_discount_path(@merchant.id, @bulk_discount_2.id))
   end
 end

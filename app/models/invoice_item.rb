@@ -27,6 +27,7 @@ class InvoiceItem < ApplicationRecord
   end
 
   def add_discount
+    self.top_discount
     bulk_discounts.order(threshold: :desc).each do |discount|
       self.bulk_discount_id = discount.id if quantity >= discount.threshold
       self.save
