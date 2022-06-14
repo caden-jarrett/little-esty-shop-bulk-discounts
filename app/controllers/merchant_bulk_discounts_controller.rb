@@ -28,9 +28,9 @@ class MerchantBulkDiscountsController < ApplicationController
   end
 
   def create
-    BulkDiscount.create(percentage: params[:percentage], threshold: params[:threshold],
-                                merchant_id: params[:merchant_id])
-    redirect_to merchant_bulk_discounts_path(params[:merchant_id])
+    @merchant = Merchant.find(params[:merchant_id])
+    @discount = @merchant.bulk_discounts.create(bulk_discount_params)
+    redirect_to merchant_bulk_discounts_path(@merchant.id)
   end
 
   def destroy
@@ -42,10 +42,10 @@ class MerchantBulkDiscountsController < ApplicationController
   def next_holidays
     @holidays = HolidayFacade.summon_holidays
   end
-  
+
   private
 
   def bulk_discount_params
-    params.require(:bulk_discount).permit(:threshold, :percentage, :merchant_id)
+    params.permit(:threshold, :percentage, :merchant_id)
   end
 end

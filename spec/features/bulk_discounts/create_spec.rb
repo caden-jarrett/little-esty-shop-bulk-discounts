@@ -20,18 +20,17 @@ RSpec.describe 'bulk discont create' do
     expect(current_path).to eq(new_merchant_bulk_discount_path(@merchant_1))
 
     within '#new-threshold' do
-      select(10)
+      select(25)
     end
 
     within '#new-percentage' do
-      select(15)
+      select(5)
     end
-
     click_on 'Create'
 
     expect(current_path).to eq(merchant_bulk_discounts_path(@merchant_1))
 
-    expect(page).to have_content('Percent Discount: 15')
-    expect(page).to have_content('Item Quantity Threshold: 10')
+    expect(page).to have_content('Percent Discount: 5')
+    expect(page).to have_content('Item Quantity Threshold: 25')
   end
 end
