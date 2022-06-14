@@ -29,7 +29,7 @@ RSpec.describe 'discount show page', type: :feature do
     click_on 'Update Bulk Discount'
 
     expect(current_path).to eq(merchant_bulk_discount_path(@merchant_1, @bulk_discount_1))
-    save_and_open_page
+
     within "#discount-info" do
       expect(page).to have_content('Bulk Discount Percentage: 25.0%')
       expect(page).to have_content('Discount Item Threshold: 5')
