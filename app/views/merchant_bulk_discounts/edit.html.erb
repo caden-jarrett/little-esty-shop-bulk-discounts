@@ -3,7 +3,7 @@
 <h1> Bulk Discount Edit Page </h1>
 
 
-<%= form_with model: [:merchant, @discount] do |form| %>
+<%= form_with url: merchant_bulk_discount_path(@merchant.id, @discount.id), method: :patch, local: true do |form| %>
   <div id='new-threshold'>
     <%= form.label :threshold, "Bulk Discount Item Threshold" %><br/>
     <%= form.select :threshold, options_for_select((1..100), selected: @discount.threshold) %>
