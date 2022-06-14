@@ -1,19 +1,27 @@
 <%= render partial: "shared/header" %>
+<div>
+  <h1> Discounts Index </h1>
 
-<h1> Discounts Index </h1>
+  <div id="discounts">
+    <% @discounts.each do |discount| %>
+      <div id= 'discount-<%= discount.id %>'>
+        Percent Discount: <%= discount.percentage %>%<br>
+        Item Quantity Threshold: <%= discount.threshold %><br>
+        <%= link_to "Bulk Discount Show Page", merchant_bulk_discounts_path(@merchant, discount) %><br>
+        <%= link_to "Delete Bulk Discount", merchant_bulk_discount_path(@merchant, discount), method: :delete %><br>
+        <br>
+      </div>
+    <% end %>
+  </div>
 
-<div id="discounts">
-  <% @discounts.each do |discount| %>
-    <div id= 'discount-<%= discount.id %>'>
-      Percent Discount: <%= discount.percentage %>%<br>
-      Item Quantity Threshold: <%= discount.threshold %><br>
-      <%= link_to "Bulk Discount Show Page", merchant_bulk_discounts_path(@merchant, discount) %><br>
-      <%= link_to "Delete Bulk Discount", merchant_bulk_discount_path(@merchant, discount), method: :delete %><br>
-      <br>
-    </div>
-  <% end %>
-</div>
+  <div id='new-discount'>
+    <%= link_to "Create Bulk Discount", new_merchant_bulk_discount_path(@merchant) %><br>
+  </div>
 
-<div id='new-discount'>
-  <%= link_to "Create Bulk Discount", new_merchant_bulk_discount_path(@merchant) %><br>
+  <div id='holidays'>
+    Next Three Holidays:<br>
+    <%= @holidays.each do |h| %>
+      <%= h.name %>, <%= h.date %><br>
+    <% end %>
+  </div>
 </div>

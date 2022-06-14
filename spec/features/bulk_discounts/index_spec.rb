@@ -13,6 +13,7 @@ end
 
   it 'lists names of all merchant bulk discounts', :vcr do
     visit merchant_dashboard_index_path(@merchant_1)
+
     within '#discounts-link' do
       click_on 'View All Discounts'
     end
@@ -37,11 +38,11 @@ end
       expect(page).to have_link('Bulk Discount Show Page')
     end
 
-    expect(page).to_not have_content(@bulk_discount_4.percentage)
-    expect(page).to_not have_content(@bulk_discount_4.threshold)
+    expect(page).to_not have_content("Percent Discount: #{@bulk_discount_4.percentage}")
+    expect(page).to_not have_content("Item Quantity Threshold: #{@bulk_discount_4.percentage}")
   end
 
-  scenario 'displays link to a bulk discount creation form' do
+  scenario 'displays link to a bulk discount creation form', :vcr do
     visit merchant_bulk_discounts_path(@merchant_1)
 
     click_on 'Create Bulk Discount'
@@ -64,7 +65,7 @@ end
     expect(page).to have_content('Item Quantity Threshold: 10')
   end
 
-  scenario 'it displays a link to delete each discount' do
+  scenario 'it displays a link to delete each discount', :vcr do
     visit merchant_bulk_discounts_path(@merchant_1)
 
     within "#discount-#{@bulk_discount_3.id}" do
@@ -72,8 +73,19 @@ end
     end
 
     expect(current_path).to eq(merchant_bulk_discounts_path(@merchant_1))
+    
+    expect(page).to_not have_content("Percent Discount: #{@bulk_discount_3.percentage}")
+    expect(page).to_not have_content("Item Quantity Threshold: #{@bulk_discount_3.percentage}")
+  end
 
-    expect(page).to_not have_content(@bulk_discount_3.percentage)
-    expect(page).to_not have_content(@bulk_discount_3.threshold)
+  it 'lists the next 3 upcoming holidays', :vcr do
+    visit merchant_bulk_discounts_path(@merchant_1)
+
+    within '#holidays' do
+      expect(page).to have_content('Next Three Holidays:')
+      expect(page).to have_content('Juneteenth, 2022-06-20')
+      expect(page).to have_content('Independence Day, 2022-07-04')
+      expect(page).to have_content('Labour Day, 2022-09-05')
+    end
   end
 end

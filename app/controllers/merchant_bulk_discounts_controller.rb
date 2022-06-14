@@ -1,4 +1,6 @@
 class MerchantBulkDiscountsController < ApplicationController
+  before_action :next_holidays, only: %i[index]
+
   def index
     @merchant = Merchant.find(params[:merchant_id])
     @discounts = @merchant.bulk_discounts
@@ -37,6 +39,10 @@ class MerchantBulkDiscountsController < ApplicationController
     redirect_to merchant_bulk_discounts_path(params[:merchant_id])
   end
 
+  def next_holidays
+    @holidays = HolidayFacade.summon_holidays
+  end
+  
   private
 
   def bulk_discount_params
