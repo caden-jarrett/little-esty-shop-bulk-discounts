@@ -25,7 +25,7 @@ class InvoiceItem < ApplicationRecord
       discount = BulkDiscount.find(bulk_discount_id)
       (quantity * unit_price * (100 - discount.percentage) / 100) / 100
     else
-      (quantity * unit_price)/100
+      (quantity * unit_price) / 100
     end
   end
 

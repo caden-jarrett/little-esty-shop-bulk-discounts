@@ -37,13 +37,12 @@
           <%= form.select :status, options_for_select(["pending", "packaged", "shipped"], selected: "#{invoice_item.status}")%>
           <%= form.submit "Update Item Status" %>
             <% unless invoice_item.bulk_discount_id.nil? %>
-            <% invoice_item.add_discount %>
             <td><%= link_to 'Applied Discount', merchant_bulk_discount_path(@merchant.id, invoice_item.bulk_discount_id) %></td>
             <% else %>
             No Applied Discounts<br>
             <% end %>
         <% end %>
-        </td>
+      
       </tr>
   <% end %>
 </tbody>
