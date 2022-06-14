@@ -30,14 +30,9 @@ class InvoiceItem < ApplicationRecord
   end
 
   def add_discount
-    self.top_discount
     bulk_discounts.order(percentage: :desc).each do |discount|
       self.bulk_discount_id = discount.id if quantity >= discount.threshold
       break
     end
-  end
-
-  def top_discount
-    bulk_discounts.where('bulk_discount.threshold <= ?', quantity).order(percentage: :desc).limit(1)
   end
 end
