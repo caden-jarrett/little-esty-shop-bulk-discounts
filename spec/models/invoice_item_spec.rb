@@ -129,7 +129,7 @@ RSpec.describe InvoiceItem, type: :model do
                                   created_at: Time.parse('2012-03-27 14:54:09 UTC'))
       @ii_4 = InvoiceItem.create!(invoice_id: @i3.id, item_id: @item_3.id, quantity: 5, unit_price: 150, status: 1,
                                   created_at: Time.parse('2011-03-27 14:54:09 UTC'))
-      binding.pry
+      
       expect(@ii_1.add_discount).to eq(nil)
     end
   end
