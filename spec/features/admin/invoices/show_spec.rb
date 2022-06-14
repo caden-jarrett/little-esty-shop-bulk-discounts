@@ -54,6 +54,15 @@ RSpec.describe 'Admin Invoice Show page' do
     end
   end
 
+  it 'displays the ammount of discounted revenue made by the invoice', :vcr do
+    @bulk_discount_1 = @merchant.bulk_discounts.create(threshold:1, percentage: 15)
+    @bulk_discount_2 = @merchant.bulk_discounts.create(threshold:1, percentage: 20, id:100000)
+    visit admin_invoice_path(@invoice_1)
+    within "#invoice-#{@invoice_1.id}" do
+      expect(page).to have_content("Discounted Revenue: $#{@invoice_1.discounted_revenue}")
+    end
+  end
+
   it 'can update the status of a invoice item', :vcr do
     visit admin_invoice_path(@invoice_1)
 
@@ -79,7 +88,7 @@ RSpec.describe 'Admin Invoice Show page' do
     click_on('Update Invoice Status')
 
     expect(current_path).to eq(admin_invoice_path(@invoice_7))
-    
+
 
     expect(page).to have_content('in progress')
   end

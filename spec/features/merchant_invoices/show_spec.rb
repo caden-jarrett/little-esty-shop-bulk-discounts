@@ -115,7 +115,7 @@ RSpec.describe 'Merchant Invoice Show page' do
     @bulk_discount_2 = @merchant.bulk_discounts.create(threshold:1, percentage: 20, id:100000)
 
     visit merchant_invoice_path(@merchant, @invoice_1)
-
+    save_and_open_page
     within "#invoice-items-#{@invoice_item_2.id}" do
       expect(page).to have_content('Applied Discount')
       click_on('Applied Discount')
