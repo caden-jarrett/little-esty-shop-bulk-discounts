@@ -21,6 +21,7 @@ class InvoiceItem < ApplicationRecord
   end
 
   def discount_cost
+    self.add_discount
     if !bulk_discount_id.nil?
       discount = BulkDiscount.find(bulk_discount_id)
       (quantity * unit_price * (100 - discount.percentage) / 100) / 100
